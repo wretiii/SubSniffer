@@ -10,12 +10,11 @@ pip install requests shodan
 ```
 
 ## Usage
-```
+```bash
+sudo python3 subsniffer.py -i subdomains.txt
+
 options:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
                         Input file containing subdomains.
-```
-```bash
-sudo python3 subsniffer.py -i subdomains.txt
 ```
