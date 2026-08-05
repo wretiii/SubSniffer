@@ -8,15 +8,17 @@ Port discovery has two modes:
 
 ## Requirements
 - Python 3.6 or higher.
-- External libraries: `requests`, `shodan`.
-```bash
-pip install -r requirements.txt
-```
+- [pipx](https://pipx.pypa.io/), to install the tool and its dependencies (`requests`, `shodan`) into an isolated environment.
 - A Shodan API key is only needed for the default passive mode. Not required if you use `--active`.
+
+## Install
+```bash
+pipx install .
+```
 
 ## Usage
 ```bash
-python3 subsniffer.py -i subdomains.txt
+subsniffer -i subdomains.txt
 ```
 
 Options:
@@ -39,7 +41,7 @@ Options:
 
 ```bash
 export SHODAN_API_KEY="your-shodan-api-key"
-python3 subsniffer.py -i subdomains.txt
+subsniffer -i subdomains.txt
 ```
 
 If no key is configured, SubSniffer still resolves IPs and checks redirects, and just skips the port lookup with a message.
@@ -47,7 +49,7 @@ If no key is configured, SubSniffer still resolves IPs and checks redirects, and
 ### Active mode
 
 ```bash
-python3 subsniffer.py -i subdomains.txt --active
+subsniffer -i subdomains.txt --active
 ```
 
 No sudo/root is required — SubSniffer only makes standard outbound TCP connections and DNS lookups.

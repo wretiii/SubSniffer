@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "subsniffer"
+version = "1.0.0"
+description = "Resolve subdomains, check redirects, and enumerate open ports (passive via Shodan or active TCP connect-scan)"
+readme = "README.md"
+requires-python = ">=3.6"
+license = { text = "MIT" }
+dependencies = [
+    "requests>=2.31",
+    "shodan>=1.31",
+]
+
+[project.scripts]
+subsniffer = "subsniffer:main"
+
+[tool.setuptools]
+py-modules = ["subsniffer"]

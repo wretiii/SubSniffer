@@ -1,2 +1,0 @@
-requests>=2.31
-shodan>=1.31
