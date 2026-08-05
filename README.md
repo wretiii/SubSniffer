@@ -19,11 +19,14 @@ pipx install .
 ## Usage
 ```bash
 subsniffer -i subdomains.txt
+# or a single subdomain, no file needed:
+subsniffer -d www.example.com
 ```
 
 Options:
 ```
--i, --input           Input file containing subdomains.                         [required]
+-i, --input           Input file containing subdomains.        [required, or use -d]
+-d, --domain           Look up a single subdomain instead of reading from a file.
 -o, --output           Output CSV file (default: output.csv)
 --active                Do a live TCP connect-scan instead of the passive Shodan lookup.
                         Sends packets directly to targets -- only use against hosts

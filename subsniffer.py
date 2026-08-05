@@ -123,7 +123,9 @@ def load_subdomains(input_file):
 
 def main():
     parser = argparse.ArgumentParser(description="Resolve subdomains, check redirects, and enumerate open ports.")
-    parser.add_argument("-i", "--input", required=True, help="Input file containing subdomains.")
+    target_group = parser.add_mutually_exclusive_group(required=True)
+    target_group.add_argument("-i", "--input", help="Input file containing subdomains.")
+    target_group.add_argument("-d", "--domain", help="Look up a single subdomain instead of reading from a file.")
     parser.add_argument("-o", "--output", default="output.csv", help="Output CSV file (default: output.csv)")
     parser.add_argument("--active", action="store_true",
                          help="Do a live TCP connect-scan of common ports instead of the passive Shodan lookup. "
@@ -134,6 +136,10 @@ def main():
     parser.add_argument("--threads", type=int, default=10, help="Number of subdomains to process concurrently (default: 10)")
     parser.add_argument("--api-key", default=None, help="Shodan API key (overrides SHODAN_API_KEY env var)")
     parser.add_argument("--shodan-delay", type=float, default=1.1, help="Minimum seconds between Shodan API calls (default: 1.1, free tier is 1 req/sec)")
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
+
     args = parser.parse_args()
 
     if args.ports:
@@ -145,11 +151,14 @@ def main():
     else:
         args.ports = DEFAULT_ACTIVE_PORTS
 
-    if not os.path.isfile(args.input):
-        print(f"Error: input file not found: {args.input}", file=sys.stderr)
-        sys.exit(1)
+    if args.domain:
+        subdomains = [args.domain.strip()]
+    else:
+        if not os.path.isfile(args.input):
+            print(f"Error: input file not found: {args.input}", file=sys.stderr)
+            sys.exit(1)
+        subdomains = load_subdomains(args.input)
 
-    subdomains = load_subdomains(args.input)
     if not subdomains:
         print("No subdomains found in input file.", file=sys.stderr)
         sys.exit(1)
